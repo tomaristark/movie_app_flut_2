@@ -14,3 +14,14 @@ const String kSearchMovie = "Search Movies...";
 const String kMovieName = "ONE PIECE";
 const String kRating = "6.9";
 const String kVotes = "89896 votes";
+
+//You May Like
+const String kYouMayLike = "You May Like";
+
+//Popular
+const String kPopular = "Popular";
+
+//Actor name
+const String kActorName ="Luffy";
+
+

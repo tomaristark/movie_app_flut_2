@@ -17,3 +17,8 @@ const Color kMovieTitle = Colors.white;
 const Color kStarColor = Colors.yellow;
 const Color kRateAndVoteColor = Colors.white54;
 const Color kPlayIconColor = Colors.white;
+
+//category text
+const Color kCategoryTextColor = Colors.white;
+//Actor list
+const Color kActorNameColor =Colors.white;

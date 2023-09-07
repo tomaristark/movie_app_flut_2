@@ -21,6 +21,7 @@ const double kSP350x = 350;
 //App sepcific
 
 
+
 // search bar
 const double kSearchIcon = 37;
 
@@ -28,10 +29,33 @@ const double kSearchIcon = 37;
 
 
 //RecentMovie
-const kCarouselVPF = 0.7;
+const double kCarouselVPF = 0.7;
+const double kRecentMovieWidht = 350;
 
+//MovieSessionView 
+const double kMoveieSessionViewWidht =200;
+//nowPlaying
+const double kNowPlayingMovieHeight =200;
+
+//youMayLike
+const double kYouMayLikeMovieHeight = 250;
+
+//popular
+const double kPopularMovieHeight = 220;
+
+//AcotorList
+const double kActorListHeight =350;
+
+//Category text
+const double kCategoryTextHeight = 25;
 //font size
 //NOw playing
-const double kNPMovieTitlefs = 15;
-const double kNPRateandVotefs = 12;
+const double kNPMovieTitleFS = 15;
+const double kNPRateandVoteFS = 12;
 
+//Actor list
+const double kActorNameFS = 20;
+
+
+//Category text
+const double kCategoryTextFS = 18;

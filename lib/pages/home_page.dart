@@ -9,87 +9,172 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  const Scaffold(
+    return  Scaffold(
       backgroundColor: Colors.black,
-      body: Column(
-        children: [
-          SearchBarView(),
-          MovieGenreItemView(),
-          RecentMovieSessionView(),
-          NowPlayingMovieItemView()
-        ],
+      body: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        child: ListView(
+          children: const  [
+            SearchBarSessionView(),
+            MovieGenreSessionView(),
+            RecentMovieSessionView(),
+            MoviesSessionView(movieSessionViewHeight: kNowPlayingMovieHeight),
+            CategoryTextWidget(categoryText: kYouMayLike),
+            MoviesSessionView(movieSessionViewHeight: kYouMayLikeMovieHeight),
+            CategoryTextWidget(categoryText: kPopular),
+            MoviesSessionView(movieSessionViewHeight: kPopularMovieHeight),
+            ActorList(),
+          ],
+        ),
       ),
     );
   }
 }
 
-class NowPlayingMovieItemView extends StatelessWidget {
-  const NowPlayingMovieItemView({
+class ActorList extends StatelessWidget {
+  const ActorList({
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: kSP20x),
+      child: CarouselSlider(options: CarouselOptions(
+          height: kActorListHeight,//app specific
+          enlargeCenterPage: true,
+          viewportFraction: kCarouselVPF,
+          enableInfiniteScroll: false,
+      ),
+      items:[1,2,3,4,5].map((i) {
+        return Builder(
+          builder: (BuildContext context) {
+            return Stack(
+                children: [ClipRRect(
+                  borderRadius: BorderRadius.circular(kSP20x),
+                  child: SizedBox(
+                      width: kActorListHeight,
+                      child: CachedNetworkImage(imageUrl:kNetworkImage,
+                        fit: BoxFit.fill,
+                      )
+                  ),
+                ),
+                  Container(
+                    width: kActorListHeight,//app specific
+                    decoration: const BoxDecoration(
+                        gradient: LinearGradient(colors: [kPrimaryColor,kTransparent],
+                            begin:  Alignment.bottomCenter,
+                            end: Alignment.topCenter)
+                    ),
+                  ),
+                  const Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Text(kActorName,style: TextStyle(
+                        color: kActorNameColor,
+                        fontSize: kActorNameFS,
+                        fontWeight: FontWeight.bold
+
+                    ),),
+                  )
+                ] );
+          },
+        );
+      }).toList(),
+      ),
+    );
+  }
+}
+
+class CategoryTextWidget extends StatelessWidget {
+  const CategoryTextWidget({
+    super.key, required this.categoryText,
+  });
+  final String categoryText;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: kSP20x),
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: kCategoryTextHeight,
+        child: Text(categoryText,style: const TextStyle(
+          color:kCategoryTextColor,
+          fontSize: kCategoryTextFS,
+          fontWeight: FontWeight.bold
+        ),),
+      ),
+    );
+  }
+}
+
+class MoviesSessionView extends StatelessWidget {
+  const MoviesSessionView({
+    super.key, required this.movieSessionViewHeight,
+  });
+  final double movieSessionViewHeight ;
+
+  @override
+  Widget build(BuildContext context) {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      height: kSP200x,
+      height: movieSessionViewHeight,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: 10,
           itemBuilder: (context,index){
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kSP10x),
-            child: Stack(
-              children:[ SizedBox(
-                width: kSP200x,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(kSP30x),
-                  child:CachedNetworkImage(
-                    imageUrl: kNetworkImage,
-                    fit: BoxFit.fill,
-                  ) ,
-                ),
+          return Stack(
+            children:[
+              SizedBox(
+              width: kMoveieSessionViewWidht,//app specific
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(kSP30x),
+                child:CachedNetworkImage(
+                  imageUrl: kNetworkImage,
+                  fit: BoxFit.fill,
+                ) ,
               ),
-                const Padding(
-                  padding: EdgeInsets.only(top: kSP130x,left: kSP10x),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(top: kSP10x,bottom: kSP10x),
-                        child: Text(kMovieName,style: TextStyle(
-                          color: kMovieTitle,
-                          fontWeight: FontWeight.w700,
-                          fontSize: kNPMovieTitlefs
-                        ),),
-                      ),
-                      Row(
-                        children: [
-                          Padding(
-                            padding:  EdgeInsets.only(right:kSP3x),
-                            child: Icon(Icons.star_border_outlined,color: kStarColor,),
-                          ),
-                          Padding(
-                            padding:  EdgeInsets.only(right: kSP40x),
-                            child: Text(kRating,style: TextStyle(
-                              color: kRateAndVoteColor,
-                              fontSize: kNPRateandVotefs
-                            ),),
-                          ),
-                          Padding(
-                            padding:  EdgeInsets.only(right: kSP60x),
-                            child: Text(kVotes,style: TextStyle(
-                              color: kRateAndVoteColor,
-                              fontSize: kNPRateandVotefs
-                            ),),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                )
-            ]),
-          );
+            ),
+              const Padding(
+                padding: EdgeInsets.only(top: kSP130x,left: kSP10x),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(top: kSP10x,bottom: kSP10x),
+                      child: Text(kMovieName,style: TextStyle(
+                        color: kMovieTitle,
+                        fontWeight: FontWeight.w700,
+                        fontSize: kNPMovieTitleFS
+                      ),),
+                    ),
+                    Row(
+                      children: [
+                        Padding(
+                          padding:  EdgeInsets.only(right:kSP3x),
+                          child: Icon(Icons.star_border_outlined,color: kStarColor,),
+                        ),
+                        Padding(
+                          padding:  EdgeInsets.only(right: kSP40x),
+                          child: Text(kRating,style: TextStyle(
+                            color: kRateAndVoteColor,
+                            fontSize: kNPRateandVoteFS
+                          ),),
+                        ),
+                        Padding(
+                          padding:  EdgeInsets.only(right: 50),
+                          child: Text(kVotes,style: TextStyle(
+                            color: kRateAndVoteColor,
+                            fontSize: kNPRateandVoteFS
+                          ),),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              )
+          ]);
           }),
     );
   }
@@ -113,16 +198,16 @@ class RecentMovieSessionView extends StatelessWidget {
           builder: (BuildContext context) {
             return Stack(
               children: [ClipRRect(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(kSP20x),
                 child: SizedBox(
-                  width: kSP350x,
+                  width: kRecentMovieWidht,
                   child: CachedNetworkImage(imageUrl:kNetworkImage,
                     fit: BoxFit.fill,
                   )
                 ),
               ),
                 Container(
-                  width: kSP350x,
+                  width: kRecentMovieWidht,//app specific
                   decoration: const BoxDecoration(
                     gradient: LinearGradient(colors: [kPrimaryColor,kTransparent],
                     begin:  Alignment.bottomCenter,
@@ -148,8 +233,8 @@ class RecentMovieSessionView extends StatelessWidget {
   }
 }
 
-class MovieGenreItemView extends StatelessWidget {
-  const MovieGenreItemView({
+class MovieGenreSessionView extends StatelessWidget {
+  const MovieGenreSessionView({
     super.key,
   });
  final bool isSelected = false;
@@ -194,8 +279,8 @@ class MovieGenreItemView extends StatelessWidget {
   }
 }
 
-class SearchBarView extends StatelessWidget {
-  const SearchBarView({
+class SearchBarSessionView extends StatelessWidget {
+  const SearchBarSessionView({
     super.key,
   });
 
