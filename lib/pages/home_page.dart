@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:movie_app_flut_2/constant/color.dart';
 import 'package:movie_app_flut_2/constant/dimen.dart';
 import 'package:movie_app_flut_2/constant/string.dart';
+import 'package:movie_app_flut_2/pages/actor_detail.dart';
+import 'package:movie_app_flut_2/pages/movie_detail.dart';
+import 'package:movie_app_flut_2/pages/search_page.dart';
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
@@ -16,15 +19,15 @@ class HomePage extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         child: ListView(
           children: const  [
-            SearchBarSessionView(),
+            SearchBarSessionView(paddingTop: kSP60x,hasTextField: false,),
             MovieGenreSessionView(),
             RecentMovieSessionView(),
-            MoviesSessionView(movieSessionViewHeight: kNowPlayingMovieHeight),
+            MoviesSessionViewWidget(movieSessionViewHeight: kNowPlayingMovieHeight),
             CategoryTextWidget(categoryText: kYouMayLike),
-            MoviesSessionView(movieSessionViewHeight: kYouMayLikeMovieHeight),
+            MoviesSessionViewWidget(movieSessionViewHeight: kYouMayLikeMovieHeight),
             CategoryTextWidget(categoryText: kPopular),
-            MoviesSessionView(movieSessionViewHeight: kPopularMovieHeight),
-            ActorList(),
+            MoviesSessionViewWidget(movieSessionViewHeight: kPopularMovieHeight),
+            ActorSessionView(),
           ],
         ),
       ),
@@ -32,8 +35,8 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class ActorList extends StatelessWidget {
-  const ActorList({
+class ActorSessionView extends StatelessWidget {
+  const ActorSessionView({
     super.key,
   });
 
@@ -50,34 +53,41 @@ class ActorList extends StatelessWidget {
       items:[1,2,3,4,5].map((i) {
         return Builder(
           builder: (BuildContext context) {
-            return Stack(
-                children: [ClipRRect(
-                  borderRadius: BorderRadius.circular(kSP20x),
-                  child: SizedBox(
-                      width: kActorListHeight,
-                      child: CachedNetworkImage(imageUrl:kNetworkImage,
-                        fit: BoxFit.fill,
-                      )
-                  ),
-                ),
-                  Container(
-                    width: kActorListHeight,//app specific
-                    decoration: const BoxDecoration(
-                        gradient: LinearGradient(colors: [kPrimaryColor,kTransparent],
-                            begin:  Alignment.bottomCenter,
-                            end: Alignment.topCenter)
+            return GestureDetector(
+              onTap: (){
+                Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                  return ActorDetailPage();
+                }));
+              },
+              child: Stack(
+                  children: [ClipRRect(
+                    borderRadius: BorderRadius.circular(kSP20x),
+                    child: SizedBox(
+                        width: kActorListHeight,
+                        child: CachedNetworkImage(imageUrl:kNetworkImage,
+                          fit: BoxFit.fill,
+                        )
                     ),
                   ),
-                  const Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Text(kActorName,style: TextStyle(
-                        color: kActorNameColor,
-                        fontSize: kActorNameFS,
-                        fontWeight: FontWeight.bold
-
-                    ),),
-                  )
-                ] );
+                    Container(
+                      width: kActorListHeight,//app specific
+                      decoration: const BoxDecoration(
+                          gradient: LinearGradient(colors: [kPrimaryColor,kTransparent],
+                              begin:  Alignment.bottomCenter,
+                              end: Alignment.topCenter)
+                      ),
+                    ),
+                    const Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Text(kActorName,style: TextStyle(
+                          color: kPrimaryTextColor,
+                          fontSize: kActorNameFS,
+                          fontWeight: FontWeight.bold
+            
+                      ),),
+                    )
+                  ] ),
+            );
           },
         );
       }).toList(),
@@ -100,7 +110,7 @@ class CategoryTextWidget extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         height: kCategoryTextHeight,
         child: Text(categoryText,style: const TextStyle(
-          color:kCategoryTextColor,
+          color:kPrimaryTextColor,
           fontSize: kCategoryTextFS,
           fontWeight: FontWeight.bold
         ),),
@@ -109,8 +119,8 @@ class CategoryTextWidget extends StatelessWidget {
   }
 }
 
-class MoviesSessionView extends StatelessWidget {
-  const MoviesSessionView({
+class MoviesSessionViewWidget extends StatelessWidget {
+  const MoviesSessionViewWidget({
     super.key, required this.movieSessionViewHeight,
   });
   final double movieSessionViewHeight ;
@@ -119,62 +129,70 @@ class MoviesSessionView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      height: movieSessionViewHeight,
+      height: movieSessionViewHeight, // k
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: 10,
           itemBuilder: (context,index){
-          return Stack(
-            children:[
-              SizedBox(
-              width: kMoveieSessionViewWidht,//app specific
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(kSP30x),
-                child:CachedNetworkImage(
-                  imageUrl: kNetworkImage,
-                  fit: BoxFit.fill,
-                ) ,
-              ),
-            ),
-              const Padding(
-                padding: EdgeInsets.only(top: kSP130x,left: kSP10x),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: kSP10x,bottom: kSP10x),
-                      child: Text(kMovieName,style: TextStyle(
-                        color: kMovieTitle,
-                        fontWeight: FontWeight.w700,
-                        fontSize: kNPMovieTitleFS
-                      ),),
-                    ),
-                    Row(
-                      children: [
-                        Padding(
-                          padding:  EdgeInsets.only(right:kSP3x),
-                          child: Icon(Icons.star_border_outlined,color: kStarColor,),
-                        ),
-                        Padding(
-                          padding:  EdgeInsets.only(right: kSP40x),
-                          child: Text(kRating,style: TextStyle(
-                            color: kRateAndVoteColor,
-                            fontSize: kNPRateandVoteFS
-                          ),),
-                        ),
-                        Padding(
-                          padding:  EdgeInsets.only(right: 50),
-                          child: Text(kVotes,style: TextStyle(
-                            color: kRateAndVoteColor,
-                            fontSize: kNPRateandVoteFS
-                          ),),
-                        )
-                      ],
-                    )
-                  ],
+          return GestureDetector(
+            onTap: (){
+              Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                return MovieDetailPage();
+              }));
+            },
+            child: Stack(
+              children:[
+                SizedBox(
+                width: kMoveieSessionViewWidht,//app specific
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(kSP30x),
+                  child:CachedNetworkImage(
+                    imageUrl: kNetworkImage,
+                    fit: BoxFit.fill,
+                  ) ,
                 ),
-              )
-          ]);
+              ),
+                const Padding(
+                  padding: EdgeInsets.only(top: kSP130x,left: kSP10x),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: kSP10x,bottom: kSP10x),
+                        child: Text(kMovieName,style: TextStyle(
+                          color: kPrimaryTextColor,
+                          fontWeight: FontWeight.w700,
+                          fontSize: kNPMovieTitleFS
+                        ),),
+                      ),
+                      Row(
+                        children: [
+                          Padding(
+                            padding:  EdgeInsets.only(right:kSP3x),
+                            child: Icon(Icons.star_border_outlined,color: kStarColor,),
+                          ),
+                          Padding(
+                            padding:  EdgeInsets.only(right: kSP40x),
+                            child: Text(kRating,style: TextStyle(
+                              color: kRateAndVoteColor,
+                              fontSize: kNPRateandVoteFS
+                            ),),
+                          ),
+                          Padding(
+                            padding:  EdgeInsets.only(right: 50),
+                            child: Text(kVotes,style: TextStyle(
+                              color: kRateAndVoteColor,
+                              fontSize: kNPRateandVoteFS
+                            ),),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                )
+            ]),
+          );
           }),
     );
   }
@@ -267,7 +285,7 @@ class MovieGenreSessionView extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: kSP5x,vertical: kSP2x),
                   child: Text(currentItem,style: const TextStyle(
-                    color: kMovieGenreColor
+                    color: kPrimaryTextColor
                   ),),
                 ),
               ),
@@ -281,39 +299,63 @@ class MovieGenreSessionView extends StatelessWidget {
 
 class SearchBarSessionView extends StatelessWidget {
   const SearchBarSessionView({
-    super.key,
+    super.key, required this.paddingTop,required this.hasTextField,
   });
-
+  final double paddingTop;
+  final bool hasTextField ;
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: kSP60x,left: kSP10x,right: kSP10x,bottom: kSP20x),
+      padding:  EdgeInsets.only(top: paddingTop,left: kSP10x,right: kSP10x,bottom: kSP20x),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            width: MediaQuery.of(context).size.width*0.7,
+            width: MediaQuery.of(context).size.width*0.75,
             height: kSP62x,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(kSP20x),
               color: kSearchBarColor,
             ),
-            child: const Padding(
-              padding:  EdgeInsets.only(top: kSP22x,left: kSP10x),
-              child:  Text(kSearchMovie,style: TextStyle(
-                color:  kSearchHintText
-              ),),
+            child:  Padding(
+              padding: const  EdgeInsets.only(top: kSP22x,left: kSP10x),
+              child: (hasTextField)? Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: TextField(
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: kSearchMovie,
+                    hintStyle: TextStyle(
+                      color: kSecondaryTextColor
+                    ),
+                    
+                  ),
+                ),
+              )
+              :const Text(kSearchMovie,style: TextStyle(
+                color:  kSecondaryTextColor
+              ),)
+
             ),
           ),
-          Container(
-            width: MediaQuery.of(context).size.width* 0.16,
-            height: kSP60x,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: kSecondaryColor,
-              borderRadius: BorderRadius.circular(kSP12x)
+          GestureDetector(
+            onTap: (){
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context){
+                  return const SearchPage();
+                })
+              );
+            },
+            child: Container(
+              width: MediaQuery.of(context).size.width* 0.16,
+              height: kSP57x,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: kSecondaryColor,
+                borderRadius: BorderRadius.circular(kSP12x)
+              ),
+              child: const Icon(Icons.search,size: kSearchIcon,color:kSearchIconColor,),
             ),
-            child: const Icon(Icons.search,size: kSearchIcon,color:kSearchIconColor,),
           )
         ],
       ),
