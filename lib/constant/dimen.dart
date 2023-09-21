@@ -7,6 +7,7 @@ const double kSP10x = 10;
 const double kSP12x = 12;
 const double kSP20x = 20;
 const double kSP22x = 22;
+const double kSP25x = 25;
 const double kSP30x =30; 
 const double kSP32x = 32;
 const double kSP35x = 35;
@@ -90,6 +91,7 @@ const double kCategoryTextFS = 18;
 const double kSliverAppbarMovieNameFS = 18;
 //cast and cew
 const double kCastAndCrewTopTextFS = 16;
+const double kStudioNameTextFS = 15;
 
 //Actor detail
 const double kActorDetailActorNameFS = 20;

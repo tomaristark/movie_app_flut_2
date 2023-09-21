@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:movie_app_flut_2/constant/color.dart';
 import 'package:movie_app_flut_2/constant/dimen.dart';
 import 'package:movie_app_flut_2/constant/string.dart';
+import 'package:movie_app_flut_2/data/movie_genre_vo.dart';
 import 'package:movie_app_flut_2/pages/actor_detail.dart';
 import 'package:movie_app_flut_2/pages/movie_detail.dart';
 import 'package:movie_app_flut_2/pages/search_page.dart';
@@ -251,12 +252,26 @@ class RecentMovieSessionView extends StatelessWidget {
   }
 }
 
-class MovieGenreSessionView extends StatelessWidget {
+class MovieGenreSessionView extends StatefulWidget {
   const MovieGenreSessionView({
     super.key,
   });
- final bool isSelected = false;
 
+  @override
+  State<MovieGenreSessionView> createState() => _MovieGenreSessionViewState();
+}
+
+class _MovieGenreSessionViewState extends State<MovieGenreSessionView> {
+   List<MovieGenreVO> _genreList=[];
+   int current  = 0;
+
+
+@override
+  void initState() {
+        _genreList = List.generate(kMovieGenreList.length, (index) =>MovieGenreVO(kMovieGenreList[index])).toList();
+        _genreList [0].isSelected= true;
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -266,32 +281,48 @@ class MovieGenreSessionView extends StatelessWidget {
         height: kSP35x,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
-          itemCount: kMovieGenreList.length,
+          itemCount: _genreList.length,
           itemBuilder:(context,index){
-            String currentItem =kMovieGenreList[index];
             return GestureDetector(
               onTap: (){
-                // isSelected =true;
-                print("$currentItem");
+                setState(() {
+                      current =index;                   
+                });
               },
-              child: Container(
-                alignment: Alignment.center,
-                margin: const EdgeInsets.symmetric(horizontal: kSP3x),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(kSP8x),
-                  color: (currentItem =="Adventure")?kSecondaryColor:kPrimaryColor,
-                  //color :(isSelected)?primary color :Secondarycolor
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: kSP5x,vertical: kSP2x),
-                  child: Text(currentItem,style: const TextStyle(
-                    color: kPrimaryTextColor
-                  ),),
-                ),
-              ),
+              child: MovieGenreItemView(movieGenre: _genreList[index],current: current,index: index,),
             );
           } ),
 
+      ),
+    );
+  }
+}
+
+class MovieGenreItemView extends StatelessWidget {
+  const MovieGenreItemView({
+    super.key,
+     required this.movieGenre, required this.current, required this.index,
+  });
+
+  final MovieGenreVO movieGenre;
+  final int current;
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      margin: const EdgeInsets.symmetric(horizontal: kSP3x),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(kSP8x),
+        color:  (current==index)?kSecondaryColor:kPrimaryColor,
+        //color :(isSelected)?primary color :Secondarycolor
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: kSP5x,vertical: kSP2x),
+        child: Text(movieGenre.movieGenre,style: const TextStyle(
+          color: kPrimaryTextColor
+        ),),
       ),
     );
   }

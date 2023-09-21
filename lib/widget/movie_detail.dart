@@ -95,11 +95,11 @@ class ProductionListWidget extends StatelessWidget {
             mainAxisAlignment:MainAxisAlignment.spaceBetween,
             children: [
               CircleAvatar(
-                radius: 25,
+                radius: kSP25x,
                 backgroundImage: CachedNetworkImageProvider(kNetworkImage),
               ),
               Text(studioName,style:const  TextStyle(
-                fontSize: 15,
+                fontSize: kStudioNameTextFS,
                 color: kSecondaryTextColor,
               ),)
             ],
