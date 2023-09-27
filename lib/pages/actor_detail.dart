@@ -7,7 +7,7 @@ import 'package:movie_app_flut_2/pages/home_page.dart';
 
 class ActorDetailPage extends StatelessWidget {
   const ActorDetailPage({super.key});
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +21,7 @@ class ActorDetailPage extends StatelessWidget {
             backgroundColor:kPrimaryColor,
               expandedHeight: MediaQuery.of(context).size.height*0.56,
               flexibleSpace: FlexibleSpaceBar(
-                title: Text(kActorName,style:TextStyle(
+                title: Text(kActorName,style:const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: kActorDetailActorNameFS
                 ),),
@@ -56,31 +56,29 @@ class ActorDetailPage extends StatelessWidget {
         ]), 
         body: ListView(
           children: [
-            ArtistHeading(artistHeading:kActorDetailBiographyText),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: kSP2x),
+            const ArtistHeading(artistHeading:kActorDetailBiographyText),
+            const Padding(
+              padding:  EdgeInsets.symmetric(horizontal: kSP2x),
               child: Divider(thickness: 2,color: kDividerColor,),
             ),
-            Container(
-              child: Text(
-                kMovieDetailText+kMovieDetailText+kMovieDetailText
-                ,style: TextStyle(
-                  color: kSecondaryTextColor,
-                  fontSize: kActorDetailBiographyFS,
-                ),
-              ),
-
-            ),
-            
-            Padding(
-              padding: const EdgeInsets.only(top: kSP20x),
+               Expanded(
+                 child: Text(
+                  kMovieDetailText+kMovieDetailText+kMovieDetailText+kMovieDetailText
+                  ,style:const TextStyle(
+                    color: kSecondaryTextColor,
+                    fontSize: kActorDetailBiographyFS,
+                  ),
+                             ),
+               ),
+            const Padding(
+              padding:  EdgeInsets.only(top: kSP20x),
               child: ArtistHeading(artistHeading: kActorDetailMoreInformationText),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 2),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 2),
               child: Divider(thickness: 2,color: kDividerColor,),
             ),
-            MoreInfoText(leftMoreinfoText: kActorDetailPlaceOfBirthText, rightMoreinfoText: "Newyourk adlasdasdkasoda"),
+            MoreInfoText(leftMoreinfoText: kActorDetailPlaceOfBirthText, rightMoreinfoText: "Newyourk adlasdasdkasoda Newyourk adlasdasdkasoda"),
             HeightBetweenMoreInfoText(),
             MoreInfoText(leftMoreinfoText: kActorDetailBirthdayText, rightMoreinfoText: "18.20.20"),
             HeightBetweenMoreInfoText(),
@@ -90,12 +88,12 @@ class ActorDetailPage extends StatelessWidget {
             HeightBetweenMoreInfoText(),
             MoreInfoText(leftMoreinfoText: kActorDetailPopularityText, rightMoreinfoText: "21323313"),
             HeightBetweenMoreInfoText(),
-            ArtistHeading(artistHeading: kActorDetailKnownForText),
-             Padding(
+           const  ArtistHeading(artistHeading: kActorDetailKnownForText),
+            const  Padding(
               padding: const EdgeInsets.symmetric(horizontal: kSP2x),
               child: Divider(thickness: 2,color: Colors.white,),
             ),
-             MoviesSessionViewWidget(movieSessionViewHeight: kActorDetailMovieSessionHeight)
+             MoviesSessionViewWidget(movieSessionViewHeight: kActorDetailMovieSessionHeight,movieImgae: kNetworkImage,movieName: kMovieName,movieRating: kRating,movieVotes: kVotes,)
 
           ],
             
@@ -132,7 +130,7 @@ class ArtistHeading extends StatelessWidget {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(artistHeading,textAlign: TextAlign.left,
-                        style: TextStyle(color: kPrimaryTextColor,
+                        style: const TextStyle(color: kPrimaryTextColor,
                         fontWeight: FontWeight.w500,
                         fontSize: kActorDeatilArtistHeadingTextFS
                         ),
@@ -151,23 +149,24 @@ class MoreInfoText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
+                  SizedBox(
                      width: MediaQuery.of(context).size.width*0.35,
                      child: Text(
                          leftMoreinfoText,textAlign: TextAlign.left,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: kSecondaryTextColor,
                               fontSize: kActorDetailMoreInfoTextFS
                             ),
                           ),
                         ),
                       
-                       Container(
+                       Expanded(
                           child: Text(
                             rightMoreinfoText,
                             textAlign:TextAlign.left,
-                            style: TextStyle(
+                            style:const  TextStyle(
                               color: kSecondaryTextColor,
                               fontSize: kActorDetailMoreInfoTextFS
                             ),

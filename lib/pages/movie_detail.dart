@@ -22,7 +22,7 @@ class MovieDetailPage extends StatelessWidget {
             backgroundColor:kPrimaryColor,
               expandedHeight: MediaQuery.of(context).size.height*0.56,
               flexibleSpace: FlexibleSpaceBar(
-                title: Text(kMovieName,style: TextStyle(
+                title: const Text(kMovieName,style: TextStyle(
                   fontSize: kSliverAppbarMovieNameFS
                 ),),
                 background: Stack(
@@ -96,7 +96,7 @@ class MovieDetailPage extends StatelessWidget {
                   SizedBox(height: MediaQuery.of(context).size.height*0.01,),
                   ProductionListWidget(studioName: "NEtflix"),
                   MovieDetailHeadTextWidget(textInMovieDetail: kMovieDetailRecommendedyText),
-                  MoviesSessionViewWidget(movieSessionViewHeight: MediaQuery.of(context).size.height*0.28)
+                  MoviesSessionViewWidget(movieSessionViewHeight: MediaQuery.of(context).size.height*0.28,movieImgae: kNetworkImage,movieName: kMovieName,movieRating: kRating,movieVotes: kVotes,)
                 ],
               )
             ],

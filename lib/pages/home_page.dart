@@ -23,12 +23,12 @@ class HomePage extends StatelessWidget {
             SearchBarSessionView(paddingTop: kSP60x,hasTextField: false,),
             MovieGenreSessionView(),
             RecentMovieSessionView(),
-            MoviesSessionViewWidget(movieSessionViewHeight: kNowPlayingMovieHeight),
+            MoviesSessionViewWidget(movieSessionViewHeight: kNowPlayingMovieHeight,movieImgae: kNetworkImage,movieName: kMovieName,movieRating: kRating,movieVotes: kVotes,),
             CategoryTextWidget(categoryText: kYouMayLike),
-            MoviesSessionViewWidget(movieSessionViewHeight: kYouMayLikeMovieHeight),
+            MoviesSessionViewWidget(movieSessionViewHeight: kYouMayLikeMovieHeight,movieImgae: kNetworkImage,movieName: kMovieName,movieRating: kRating,movieVotes: kVotes,),
             CategoryTextWidget(categoryText: kPopular),
-            MoviesSessionViewWidget(movieSessionViewHeight: kPopularMovieHeight),
-            ActorSessionView(),
+            MoviesSessionViewWidget(movieSessionViewHeight: kPopularMovieHeight,movieImgae: kNetworkImage,movieName: kMovieName,movieRating: kRating,movieVotes: kVotes,),
+            ActorSessionView(actorImage: kNetworkImage,actorName: kActorName,),
           ],
         ),
       ),
@@ -38,8 +38,10 @@ class HomePage extends StatelessWidget {
 
 class ActorSessionView extends StatelessWidget {
   const ActorSessionView({
-    super.key,
+    super.key, required this.actorImage, required this.actorName,
   });
+  final String actorImage;
+  final String actorName;
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +67,7 @@ class ActorSessionView extends StatelessWidget {
                     borderRadius: BorderRadius.circular(kSP20x),
                     child: SizedBox(
                         width: kActorListHeight,
-                        child: CachedNetworkImage(imageUrl:kNetworkImage,
+                        child: CachedNetworkImage(imageUrl:actorImage,
                           fit: BoxFit.fill,
                         )
                     ),
@@ -78,9 +80,9 @@ class ActorSessionView extends StatelessWidget {
                               end: Alignment.topCenter)
                       ),
                     ),
-                    const Align(
+                     Align(
                       alignment: Alignment.bottomCenter,
-                      child: Text(kActorName,style: TextStyle(
+                      child: Text(actorName,style: TextStyle(
                           color: kPrimaryTextColor,
                           fontSize: kActorNameFS,
                           fontWeight: FontWeight.bold
@@ -122,9 +124,13 @@ class CategoryTextWidget extends StatelessWidget {
 
 class MoviesSessionViewWidget extends StatelessWidget {
   const MoviesSessionViewWidget({
-    super.key, required this.movieSessionViewHeight,
+    super.key, required this.movieSessionViewHeight, required this.movieImgae, required this.movieName, required this.movieRating, required this.movieVotes,
   });
   final double movieSessionViewHeight ;
+  final String movieImgae;
+  final String movieName;
+  final double movieRating;
+  final int movieVotes;
 
   @override
   Widget build(BuildContext context) {
@@ -148,12 +154,12 @@ class MoviesSessionViewWidget extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(kSP30x),
                   child:CachedNetworkImage(
-                    imageUrl: kNetworkImage,
+                    imageUrl: movieImgae,
                     fit: BoxFit.fill,
                   ) ,
                 ),
               ),
-                const Padding(
+                 Padding(
                   padding: EdgeInsets.only(top: kSP130x,left: kSP10x),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -161,7 +167,7 @@ class MoviesSessionViewWidget extends StatelessWidget {
                     children: [
                       Padding(
                         padding: EdgeInsets.only(top: kSP10x,bottom: kSP10x),
-                        child: Text(kMovieName,style: TextStyle(
+                        child: Text(movieName,style: TextStyle(
                           color: kPrimaryTextColor,
                           fontWeight: FontWeight.w700,
                           fontSize: kNPMovieTitleFS
@@ -175,14 +181,14 @@ class MoviesSessionViewWidget extends StatelessWidget {
                           ),
                           Padding(
                             padding:  EdgeInsets.only(right: kSP40x),
-                            child: Text(kRating,style: TextStyle(
+                            child: Text(movieRating.toString(),style: TextStyle(
                               color: kRateAndVoteColor,
                               fontSize: kNPRateandVoteFS
                             ),),
                           ),
                           Padding(
                             padding:  EdgeInsets.only(right: 50),
-                            child: Text(kVotes,style: TextStyle(
+                            child: Text(movieVotes.toString()+" votes",style: TextStyle(
                               color: kRateAndVoteColor,
                               fontSize: kNPRateandVoteFS
                             ),),
@@ -286,7 +292,15 @@ class _MovieGenreSessionViewState extends State<MovieGenreSessionView> {
             return GestureDetector(
               onTap: (){
                 setState(() {
-                      current =index;                   
+                   _genreList= _genreList.map((e){
+                    if(e.movieGenre == _genreList[index].movieGenre){
+                      e.isSelected = true;
+                    }else{
+                      e.isSelected = false;
+                    }
+          
+                    return e;
+                   }).toList();            
                 });
               },
               child: MovieGenreItemView(movieGenre: _genreList[index],current: current,index: index,),
@@ -315,7 +329,7 @@ class MovieGenreItemView extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: kSP3x),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(kSP8x),
-        color:  (current==index)?kSecondaryColor:kPrimaryColor,
+        color:  (movieGenre.isSelected)?kSecondaryColor:kPrimaryColor,
         //color :(isSelected)?primary color :Secondarycolor
       ),
       child: Padding(

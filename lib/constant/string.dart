@@ -12,8 +12,8 @@ const String kNetworkImage = "https://www.gamespot.com/a/uploads/original/1596/1
 const String kSearchMovie = "Search Movies...";
 //Now Playing
 const String kMovieName = "ONE PIECE";
-const String kRating = "6.9";
-const String kVotes = "89896 votes";
+const double  kRating = 6.9;
+const int  kVotes = 89896;
 
 //You May Like
 const String kYouMayLike = "You May Like";
