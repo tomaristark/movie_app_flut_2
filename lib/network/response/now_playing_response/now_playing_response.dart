@@ -1,7 +1,7 @@
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:movie_app_flut_2/data/vos/now_playing_vo/now_playing_date_vo/now_playing_date_vo.dart';
-import 'package:movie_app_flut_2/data/vos/now_playing_vo/now_playing_vo.dart';
+import 'package:movie_app_flut_2/data/vos/movie_vo/movie_vo.dart';
 
 part 'now_playing_response.g.dart';
 
@@ -15,7 +15,7 @@ class NowPlayingResponse{
     final int page;
   
     @JsonKey(name : "results")
-    final List<NowPlayingVO> results;
+    final List<MovieVO> results;
   
     @JsonKey(name : "total_pages")
     final int total_pages;
@@ -26,4 +26,6 @@ class NowPlayingResponse{
   NowPlayingResponse(this.dates, this.page, this.results, this.total_pages, this.total_results);
 
   factory NowPlayingResponse.fromJson(Map<String,dynamic>json)=>_$NowPlayingResponseFromJson(json);
+
+  
 }

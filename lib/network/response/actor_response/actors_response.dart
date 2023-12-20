@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:movie_app_flut_2/data/vos/actors_vo/actors_vo.dart';
+import 'package:movie_app_flut_2/data/vos/actor_vo/actor_vo.dart';
 
 part 'actors_response.g.dart';
 
@@ -9,7 +9,7 @@ class ActorsResponse{
     final int page;
   
     @JsonKey(name : "results")
-    final List<ActorsVO> results;
+    final List<ActorVO> results;
   
     @JsonKey(name : "total_pages")
     final int total_pages;

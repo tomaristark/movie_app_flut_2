@@ -1,14 +1,14 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'now_playing_response.dart';
+part of 'top_rated_response.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-NowPlayingResponse _$NowPlayingResponseFromJson(Map<String, dynamic> json) =>
-    NowPlayingResponse(
-      NowPlayingDateVO.fromJson(json['dates'] as Map<String, dynamic>),
+TopRatedMoviesResponse _$TopRatedMoviesResponseFromJson(
+        Map<String, dynamic> json) =>
+    TopRatedMoviesResponse(
       json['page'] as int,
       (json['results'] as List<dynamic>)
           .map((e) => MovieVO.fromJson(e as Map<String, dynamic>))
@@ -17,9 +17,9 @@ NowPlayingResponse _$NowPlayingResponseFromJson(Map<String, dynamic> json) =>
       json['total_results'] as int,
     );
 
-Map<String, dynamic> _$NowPlayingResponseToJson(NowPlayingResponse instance) =>
+Map<String, dynamic> _$TopRatedMoviesResponseToJson(
+        TopRatedMoviesResponse instance) =>
     <String, dynamic>{
-      'dates': instance.dates,
       'page': instance.page,
       'results': instance.results,
       'total_pages': instance.total_pages,

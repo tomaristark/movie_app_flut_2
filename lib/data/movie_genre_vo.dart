@@ -1,7 +1,7 @@
-class MovieGenreVO{
+class MovieGenreMockVO{
     String movieGenre;
     bool isSelected;
     
-    MovieGenreVO(this.movieGenre,{this.isSelected = false});
+    MovieGenreMockVO(this.movieGenre,{this.isSelected = false});
 }
 

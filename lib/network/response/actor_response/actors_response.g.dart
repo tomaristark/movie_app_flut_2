@@ -10,7 +10,7 @@ ActorsResponse _$ActorsResponseFromJson(Map<String, dynamic> json) =>
     ActorsResponse(
       json['page'] as int,
       (json['results'] as List<dynamic>)
-          .map((e) => ActorsVO.fromJson(e as Map<String, dynamic>))
+          .map((e) => ActorVO.fromJson(e as Map<String, dynamic>))
           .toList(),
       json['total_pages'] as int,
       json['total_results'] as int,

@@ -10,7 +10,14 @@ class MovieGenreVO{
     @JsonKey(name : "name")
     final String name;
 
-  MovieGenreVO(this.id, this.name);
+    bool isSelected;
+
+  MovieGenreVO(this.id, this.name,{this.isSelected =false});
 
   factory MovieGenreVO.fromJson(Map<String,dynamic>json)=>_$MovieGenreVOFromJson(json); 
+
+  @override
+  String toString() {
+    return "$id $name";
+  }
 }
