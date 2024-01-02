@@ -1,4 +1,6 @@
 const String kBaseURL ="https://api.themoviedb.org/3";
+const String kBaseImageUrl="http://image.tmdb.org/t/p/w400";
+
 
 
 const String kSearchMovieEndPoint = "/search/movie";

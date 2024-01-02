@@ -16,6 +16,8 @@ const double kSP57x =57;
 const double kSP60x = 60;
 const double kSP62x = 62;
 const double kSP100x = 100;
+const double kSP110x = 110;
+const double kSP120x = 120;
 const double kSP130x = 130;
 const double kSP200x = 200;
 const double kSP350x = 350;
@@ -37,7 +39,8 @@ const double kCarouselVPF = 0.7;
 const double kRecentMovieWidht = 350;
 
 //MovieSessionView 
-const double kMoveieSessionViewWidht =200;
+const double kMovieSessionViewWidth =200;
+const double kMovieSessionViewTextSBWidth = 195;
 //nowPlaying
 const double kNowPlayingMovieHeight =200;
 
@@ -76,7 +79,7 @@ const double kActorDetailBackbuttomWidthAndHeight = 30;
 const double kActorDetailMovieSessionHeight = 250;
 //font size
 //NOw playing
-const double kNPMovieTitleFS = 15;
+const double kNPMovieTitleFS = 13;
 const double kNPRateandVoteFS = 12;
 
 //Actor list
@@ -100,6 +103,9 @@ const double kActorDetailBiographyFS = 16;
 const double kActorDeatilArtistHeadingTextFS = 23;
 
 const double kActorDetailMoreInfoTextFS = 18;
+
+//MovieBy search
+const double kMovieBySearchTitleFS = 20;
 
 
 

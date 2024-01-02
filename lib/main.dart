@@ -17,7 +17,9 @@ void main() {
   // _movieData.getActors().then((value) => print(value)).catchError((error)=>print(error));
   
   MovieModel _model = MovieModelImpl();
-  _model.getActors(1).then((value) => print(value));
+  // _model.getActors(1).then((value) => print(value));
+  // _model.getMovieGenre().then((value) => print(value));
+  _model.getActors(1).then((value) => value?.map((e) =>print(e.known_for)));
 
 }
 
