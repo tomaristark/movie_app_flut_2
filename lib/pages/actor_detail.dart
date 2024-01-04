@@ -1,13 +1,14 @@
-import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:flutter/material.dart';
 import 'package:movie_app_flut_2/bloc/actor_detail_bloc.dart';
-import 'package:movie_app_flut_2/constant/api_constant.dart';
+
 import 'package:movie_app_flut_2/constant/color.dart';
 import 'package:movie_app_flut_2/constant/dimen.dart';
 import 'package:movie_app_flut_2/constant/string.dart';
 import 'package:movie_app_flut_2/data/vos/actor_vo/known_for/known_for.dart';
-import 'package:movie_app_flut_2/errors/error_widget.dart';
+
 import 'package:movie_app_flut_2/pages/home_page.dart';
+import 'package:movie_app_flut_2/widget/cache_image_widget.dart';
 import 'package:movie_app_flut_2/widget/movie_widgets.dart';
 import 'package:provider/provider.dart';
 
@@ -44,9 +45,8 @@ class ActorDetailPage extends StatelessWidget {
                       children: [
                         SizedBox(
                           width: MediaQuery.of(context).size.width,
-                          child: CachedNetworkImage(
-                            errorWidget: (context, url, error) => const PhotoErrorWidget(),
-                            imageUrl: "$kBaseImageUrl${value?.profile_path??""}",fit: BoxFit.cover,)),
+                          child: CacheImageWidget(imageUrl: value?.profile_path)
+                          ),
                         Positioned(
                           top: kActorDetailBackButtomTop,
                           left: kActorDetailBackButtomleft,

@@ -1,13 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
-import 'package:movie_app_flut_2/constant/api_constant.dart';
-
 import 'package:movie_app_flut_2/data/vos/movie_vo/movie_vo.dart';
 import 'package:movie_app_flut_2/pages/actor_detail.dart';
+import 'package:movie_app_flut_2/widget/cache_image_widget.dart';
 
 import 'package:provider/provider.dart';
 
@@ -36,26 +35,29 @@ class HomePage extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           child: ListView(
             children:   [
-              SearchBarSessionView(paddingTop: kSP60x,hasTextField: false,),
-              Selector<HomePageBloc,List<MovieGenreVO>>(
-                selector: (_,bloc)=>bloc.movieGenreList,
-                builder: (_, value, __){
-                  
-                 return MovieGenreSessionView(genreList: value);
+              const SearchBarSessionView(paddingTop: kSP60x,hasTextField: false,),
+              Consumer<HomePageBloc>(
+                builder: (context, value, __){
+                 return MovieGenreSessionView(genreList: value.movieGenreList);
                 },
                 ),
               Selector<HomePageBloc,List<MovieVO>?>(      
-                selector: (_,bloc)=>bloc.nowPlaying,
+                selector: (_,bloc)=>bloc.movieByGenre,
                 builder: (_,value,__){
-                  return RecentMovieSessionView(movieVO: value?.take(5).toList());
+                  if(value == null){
+                    return const CircularProgressIndicator();
+                  }
+                  return RecentMovieSessionView(movieVO: value.take(5).toList());
                 }),
               Selector<HomePageBloc,List<MovieVO>?>(
-                selector: (_,bloc)=> bloc.nowPlaying,
+                selector: (_,bloc)=> bloc.movieByGenre,
                 builder:(_,value,__){
                   if(value != null){
                     var temp = value;
                     temp.removeRange(0, 6);
-                    value = temp;
+                    value = temp; 
+                  }else if(value == null){
+                    return CircularProgressIndicator();
                   }
                   return MoviesSessionViewWidget(movieSessionViewHeight: kNowPlayingMovieHeight,movieList: value,);
                 } ),
@@ -65,14 +67,22 @@ class HomePage extends StatelessWidget {
                 builder:(_,value,__){
                     return MoviesSessionViewWidget(movieSessionViewHeight: kYouMayLikeMovieHeight,movieList: value,);
                 } ),
-              CategoryTextWidget(categoryText: kPopular),
+              const CategoryTextWidget(categoryText: kPopular),
               Selector<HomePageBloc,List<MovieVO>?>(
                 selector: (_,bloc)=>bloc.popular,
                 builder:(_,value,__) {
+                  if(value == null){
+                    return const CircularProgressIndicator();
+                  }
                   return MoviesSessionViewWidget(movieSessionViewHeight: kPopularMovieHeight,movieList: value,);}),
               Selector<HomePageBloc,List<ActorVO>?>(
                 selector: (_,bloc)=>bloc.actor,
-                builder:(_,value,__) =>ActorSessionView(actorVO: value,)),
+                builder:(_,value,__) {
+                  if(value == null){
+                    return const CircularProgressIndicator();
+                  }
+                  return ActorSessionView(actorVO: value,);
+                  }),
             ],
           ),
         ),
@@ -111,9 +121,7 @@ class ActorSessionView extends StatelessWidget {
                     borderRadius: BorderRadius.circular(kSP20x),
                     child: SizedBox(
                         width: kActorListHeight,
-                        child: CachedNetworkImage(imageUrl:"$kBaseImageUrl${actorVO?[i].profile_path??""}",
-                          fit: BoxFit.fill,
-                        )
+                        child: CacheImageWidget(imageUrl: actorVO?[i].profile_path,)
                     ),
                   ),
                     Container(
@@ -189,9 +197,7 @@ class RecentMovieSessionView extends StatelessWidget {
                 borderRadius: BorderRadius.circular(kSP20x),
                 child: SizedBox(
                   width: kRecentMovieWidht,
-                  child: CachedNetworkImage(imageUrl: "$kBaseImageUrl${movieVO?[i].poster_path??""}",
-                    fit: BoxFit.fill,
-                  )
+                  child: CacheImageWidget(imageUrl: movieVO?[i].poster_path)
                 ),
               ),
                 Container(
@@ -226,6 +232,7 @@ class MovieGenreSessionView extends StatelessWidget {
 
   final List<MovieGenreVO> genreList;
 
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -250,7 +257,9 @@ class MovieGenreSessionView extends StatelessWidget {
                 //     return e;
                 //    }).toList();            
                 // });
-                genreList[index].isSelected = true;
+                // genreList[index].isSelected = true;
+                final bloc = context.read<HomePageBloc>();
+                bloc.getMovieByGenres(genreList[index].id,index);
                 
               },
               child: MovieGenreItemView(movieGenre: genreList[index],),

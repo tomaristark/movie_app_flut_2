@@ -16,6 +16,7 @@ List<MovieVO>? nowPlaying=[];
 List<MovieVO>? youMayLike=[];
 List<MovieVO>? popular=[];
 List<ActorVO>? actor=[];
+List<MovieVO>? movieByGenre = [];
 
 
 
@@ -44,7 +45,25 @@ movie.getActors(1).then((value) {
   actor = value;
   notifyListeners();
 });
-  
+movie.getMovieByGenres(28).then((value) {
+  movieByGenre = value;
+  notifyListeners();
+});
+}
+
+void getMovieByGenres(int genresID,int index){
+    movieGenreList[0].isSelected= false;
+    movieGenreList.map((e) {
+      e.isSelected = false;
+     }).toList();
+    movieGenreList[index].isSelected= true;
+    movie.getMovieByGenres(genresID).then((value) {
+      movieByGenre = value;
+      notifyListeners();
+    });
+    
+
+
 }
 
 }

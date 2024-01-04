@@ -52,7 +52,9 @@ class MovieModelImpl extends MovieModel{
   @override
   Future<List<MovieGenreVO>> getMovieGenre() {
     return _dataAgent.getMovieGenre().then((value){
-      return value;
+     var temp = value;
+     temp[0].isSelected = true;
+     return temp;
     });
   }
 

@@ -9,7 +9,7 @@ class PhotoErrorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Image.asset(kErrorImage,
-    fit: BoxFit.fill,
+    fit: BoxFit.cover,
     );
   }
 }

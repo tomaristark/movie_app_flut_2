@@ -1,13 +1,13 @@
-import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:flutter/material.dart';
 import 'package:movie_app_flut_2/bloc/detail_page_bloc.dart';
-import 'package:movie_app_flut_2/constant/api_constant.dart';
 import 'package:movie_app_flut_2/constant/color.dart';
 import 'package:movie_app_flut_2/constant/dimen.dart';
 import 'package:movie_app_flut_2/constant/string.dart';
 import 'package:movie_app_flut_2/data/vos/cast_crew_vo/crew_vo/crew_vo.dart';
 import 'package:movie_app_flut_2/data/vos/movie_details/movie_details_vo.dart';
 import 'package:movie_app_flut_2/pages/home_page.dart';
+import 'package:movie_app_flut_2/widget/cache_image_widget.dart';
 import 'package:movie_app_flut_2/widget/movie_widgets.dart';
 import 'package:provider/provider.dart';
 
@@ -43,7 +43,9 @@ class MovieDetailPage extends StatelessWidget {
                       children: [
                         SizedBox(
                           width: MediaQuery.of(context).size.width,
-                          child: CachedNetworkImage(imageUrl: "$kBaseImageUrl${value?.poster_path??""}",fit: BoxFit.cover,)),
+                          child: CacheImageWidget(
+                            imageUrl: value?.poster_path)
+                            ),
                         Align(
                           alignment: Alignment.bottomCenter,
                           child :Padding(
